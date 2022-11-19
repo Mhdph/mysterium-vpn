@@ -3,7 +3,7 @@ import axios from 'axios';
 export const baseUrl = 'http://92.42.46.74:3000/api/v1';
 
 const token = localStorage.getItem('token');
-const api = axios.create({
+export const api = axios.create({
   baseURL: 'http://92.42.46.74:3000/api/v1',
 });
 
@@ -30,6 +30,27 @@ export const createIdentityFn = async (formData: FormData) => {
 // provider
 
 export const getAllProviderFn = async () => {
-  const response = await api.get('/provider/myst', {headers: {Authorization: `Bearer ${token}`}});
+  const response = await api.get('/provider/myst?filters[country]=GB', {headers: {Authorization: `Bearer ${token}`}});
+  return response.data;
+};
+
+export const getAllProviderConnectedFn = async () => {
+  const response = await api.get('/provider/myst?filters[isRegister]=true', {
+    headers: {Authorization: `Bearer ${token}`},
+  });
+  return response.data;
+};
+
+export const disconnectProviderFn = async (providerId: string) => {
+  const response = await api.delete<any>(`/provider/myst/${providerId}/proxy`, {
+    headers: {Authorization: `Bearer ${token}`},
+  });
+  return response.data;
+};
+
+export const connectProviderFn = async (providerId: string, formData?: any) => {
+  const response = await api.post<any>(`/provider/myst/${providerId}/proxy`, formData, {
+    headers: {Authorization: `Bearer ${token}`},
+  });
   return response.data;
 };

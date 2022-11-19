@@ -1,19 +1,19 @@
-import clsx from 'clsx';
 import * as React from 'react';
-import {useMutation} from 'react-query';
-import {toast} from 'react-toastify';
-import Loading from '../components/Loading';
 import {
+  TableContainer,
   Paper,
   Table,
-  TableBody,
-  TableCell,
-  TableContainer,
   TableHead,
-  TablePagination,
   TableRow,
+  TableCell,
+  TableBody,
+  TablePagination,
 } from '../components/mui';
-import {api, connectProviderFn, disconnectProviderFn} from '../config';
+import {disconnectProviderFn, getAllProviderConnectedFn} from '../config';
+import {useMutation, useQuery, useQueryClient} from 'react-query';
+import clsx from 'clsx';
+import Loading from '../components/Loading';
+import {toast} from 'react-toastify';
 interface Data {
   ip: string;
   country: string;
@@ -26,40 +26,19 @@ interface Data {
   proxyCount: number;
 }
 
-export default function Provider() {
+export default function ProviderConnected() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [data, setData] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
-
-  const getAllProviderFn = async () => {
-    const token = localStorage.getItem('token');
-    try {
-      const response = await api.get('/provider/myst?filters[country]=GB', {
-        headers: {Authorization: `Bearer ${token}`},
-      });
-      console.log(response.data.data);
-      setData(response.data.data);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  React.useEffect(() => {
-    getAllProviderFn();
-  }, []);
+  const queryClient = useQueryClient();
+  const {isLoading, data: ConnectedProvider} = useQuery({
+    queryKey: ['provider'],
+    queryFn: getAllProviderConnectedFn,
+  });
 
   const {mutate: disconnectProvider} = useMutation((providerId: string) => disconnectProviderFn(providerId), {
     onSuccess() {
-      getAllProviderFn();
-      toast.success('Provider disconne successfully');
-    },
-  });
-
-  const {mutate: connectProvider} = useMutation((providerId: string) => connectProviderFn(providerId), {
-    onSuccess: () => {
-      toast.success('Provider created successfully');
+      queryClient.invalidateQueries('provider');
+      toast.success('Proxy deleted successfully');
     },
   });
 
@@ -67,10 +46,6 @@ export default function Provider() {
 
   const onDisconnectHandler = (providerId: string) => {
     disconnectProvider(providerId);
-  };
-
-  const onConnectHandler = (providerId: string) => {
-    connectProvider(providerId);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -82,7 +57,7 @@ export default function Provider() {
     setPage(0);
   };
 
-  if (loading) return <Loading />;
+  if (isLoading) return <Loading />;
   return (
     <Paper sx={{width: '100%', overflow: 'hidden'}}>
       <TableContainer sx={{maxHeight: 440}}>
@@ -99,7 +74,7 @@ export default function Provider() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: Data) => {
+            {ConnectedProvider.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: Data) => {
               return (
                 <TableRow key={row.id} className='tableRow'>
                   <TableCell component='th' scope='row'>
@@ -113,7 +88,7 @@ export default function Provider() {
 
                   <TableCell>
                     <button
-                      onClick={row.isRegister ? () => onDisconnectHandler(row.id) : () => onConnectHandler(row.id)}
+                      onClick={() => onDisconnectHandler(row.id)}
                       className={clsx(row.isRegister ? 'bg-red-500' : ' bg-green-500 ', 'rounded px-2 py-1 text-white')}
                     >
                       {row.isRegister ? 'Disconnect' : 'Connect'}
@@ -128,7 +103,7 @@ export default function Provider() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component='div'
-        count={data.length}
+        count={ConnectedProvider.data.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

@@ -13,6 +13,7 @@ import React from 'react';
 import {useMutation, useQuery, useQueryClient} from 'react-query';
 import {getIdentityFn, createIdentityFn, deleteIdentityFn} from '../config';
 import {toast} from 'react-toastify';
+import Loading from '../components/Loading';
 
 interface IdentityData {
   identity: string;
@@ -72,7 +73,7 @@ function Identity() {
 
   // show data
 
-  if (isLoading) return <p>isloaidng</p>;
+  if (isLoading) return <Loading />;
 
   return (
     <div>

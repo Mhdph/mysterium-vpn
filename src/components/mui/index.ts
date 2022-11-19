@@ -13,3 +13,8 @@ export {default as TableRow} from '@mui/material/TableRow';
 export {default as TableCell} from '@mui/material/TableCell';
 export {default as TableBody} from '@mui/material/TableBody';
 export {default as TablePagination} from '@mui/material/TablePagination';
+export {default as Menu} from '@mui/material/Menu';
+export {default as MenuItem} from '@mui/material/MenuItem';
+export {default as Tooltip} from '@mui/material/Tooltip';
+export {default as Avatar} from '@mui/material/Avatar';
+export {default as Box} from '@mui/material/Box';

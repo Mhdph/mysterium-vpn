@@ -11,6 +11,7 @@ import {ProxyList} from '../pages';
 import {DashboardRoutes} from '../routes/AppRoute';
 import DashboardList from './DashboardList';
 import peoxypic from '../assets/proxy.png';
+import NavUser from './NavUser';
 
 const drawerWidth = 240;
 
@@ -66,6 +67,15 @@ const DrawerHeader = styled('div')(({theme}) => ({
 export default function Dashboard() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -85,19 +95,20 @@ export default function Dashboard() {
         position='fixed'
         open={open}
       >
-        <Toolbar>
-          <IconButton
-            color='inherit'
-            aria-label='open drawer'
-            onClick={handleDrawerOpen}
-            edge='start'
-            sx={{mr: 2, ...(open && {display: 'none'})}}
-          >
-            <Bars4Icon className='h-5 w-5 text-gray-500' />
-          </IconButton>
-          <Typography variant='h6' noWrap component='div'>
-            Persistent drawer
-          </Typography>
+        <Toolbar className='flex items-center justify-between'>
+          <p className='text-black'></p>
+
+          <div className='flex items-center'>
+            <div className='mx-2 flex flex-col font-Inter'>
+              <p className='text-sm font-medium text-black'>Welcome</p>
+              <p className='text-right text-xs text-gray-700'>Admin</p>
+            </div>
+            <NavUser
+              anchorElUser={anchorElUser}
+              handleCloseUserMenu={handleCloseUserMenu}
+              handleOpenUserMenu={handleOpenUserMenu}
+            />
+          </div>
         </Toolbar>
       </AppBar>
 

@@ -14,6 +14,7 @@ import {useMutation, useQuery, useQueryClient} from 'react-query';
 import {getIdentityFn, createIdentityFn, deleteIdentityFn} from '../config';
 import {toast} from 'react-toastify';
 import Loading from '../components/Loading';
+import {getNativeSelectUtilityClasses} from '@mui/material';
 
 interface IdentityData {
   identity: string;
@@ -25,6 +26,7 @@ function Identity() {
   const fileRef = React.useRef() as React.MutableRefObject<HTMLInputElement>;
   const [file, setFile] = React.useState<File | string>('');
   const [fileName, setFileName] = React.useState<any>('');
+  const [errorMessage, setErrorMessage] = React.useState('');
   const [passphrase, setPassphrase] = React.useState('');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -43,6 +45,9 @@ function Identity() {
     onSuccess: () => {
       queryClient.invalidateQueries(['identitykey']);
       toast.success('Identity created successfully');
+    },
+    onError: () => {
+      setErrorMessage('Passphrase or json file is wrong');
     },
   });
 
@@ -115,7 +120,7 @@ function Identity() {
                 onChange={(e) => setPassphrase(e.target.value)}
                 className=' border-blue-[#F3F4F6] border bg-gray-100 placeholder:pl-2 placeholder:text-xs'
               />
-              {error && <p className='mt-1 text-sm text-red-600'>Passphrase or json file is wrong</p>}
+              {errorMessage ? <p className='mt-1 text-sm text-red-600'>{errorMessage}</p> : null}
               <button
                 onClick={() => onSubmitHandler()}
                 className='mt-2 rounded bg-[#818CF8] p-1 px-2 text-sm text-white'

@@ -14,6 +14,7 @@ function NavUser({handleCloseUserMenu, handleOpenUserMenu, anchorElUser}: any) {
 
   const LogOut = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('id');
     navigate('/login');
   };
   return (

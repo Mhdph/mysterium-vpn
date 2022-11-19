@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {XMarkIcon} from '@heroicons/react/24/solid';
 import {baseUrl} from '../config';
 import axios from 'axios';
+import {toast} from 'react-toastify';
 
 const ChangePassword = ({showModal, setShowModal}: any) => {
   const [password, setPassword] = useState('');
@@ -21,8 +22,10 @@ const ChangePassword = ({showModal, setShowModal}: any) => {
         },
         {headers: {Authorization: `Bearer ${token}`}},
       );
+      toast.success('Password Changed successfully');
     } catch (err) {
       console.log(err);
+      toast.error('Something is wrong');
     }
   };
 

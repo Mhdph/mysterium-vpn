@@ -12,6 +12,9 @@ import {DashboardRoutes} from '../routes/AppRoute';
 import DashboardList from './DashboardList';
 import peoxypic from '../assets/proxy.png';
 import NavUser from './NavUser';
+import {userFn} from '../config';
+import {useQuery} from 'react-query';
+import Loading from './Loading';
 
 const drawerWidth = 240;
 
@@ -69,6 +72,17 @@ export default function Dashboard() {
   const [open, setOpen] = React.useState(true);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
+  const {isLoading, data} = useQuery({
+    queryKey: ['user'],
+    queryFn: userFn,
+    onSuccess(data) {
+      localStorage.setItem('id', data.data.id);
+      console.log(data.data);
+    },
+  });
+
+  if (isLoading) return <Loading />;
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -101,7 +115,7 @@ export default function Dashboard() {
           <div className='flex items-center'>
             <div className='mx-2 flex flex-col font-Inter'>
               <p className='text-sm font-medium text-black'>Welcome</p>
-              <p className='text-right text-xs text-gray-700'>Admin</p>
+              <p className='text-right text-xs text-gray-700'>{data.data.username}</p>
             </div>
             <NavUser
               anchorElUser={anchorElUser}

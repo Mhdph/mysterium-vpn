@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const baseUrl = 'http://92.42.46.74:4000/api/v1';
+export const baseUrl = 'http://92.42.46.74:3000/api/v1';
 
 const token = localStorage.getItem('token');
 export const api = axios.create({

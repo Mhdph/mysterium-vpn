@@ -65,7 +65,6 @@ export default function ProviderConnected() {
           <TableHead>
             <TableRow>
               <TableCell>‌Id</TableCell>
-              <TableCell>Country</TableCell>
               <TableCell>Qaulity</TableCell>
               <TableCell>‌Bandwidth</TableCell>
               <TableCell>Latency</TableCell>
@@ -80,7 +79,6 @@ export default function ProviderConnected() {
                   <TableCell component='th' scope='row'>
                     {row.id.slice(0, 4)}*****{row.id.slice(32, 36)}
                   </TableCell>
-                  <TableCell>{row.country}</TableCell>
                   <TableCell>{row.quality.toFixed(2)}</TableCell>
                   <TableCell>{row.bandwidth.toFixed(2)}</TableCell>
                   <TableCell>{row.latency.toFixed(2)}</TableCell>

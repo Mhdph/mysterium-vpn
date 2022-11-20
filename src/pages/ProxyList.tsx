@@ -53,9 +53,8 @@ const ProxyList = () => {
               <TableHead className='tableHead'>
                 <TableRow>
                   <TableCell>‌Id</TableCell>
-                  <TableCell>‌Ip</TableCell>
+                  <TableCell>‌Ip:Port</TableCell>
                   <TableCell>Country</TableCell>
-                  <TableCell>Listen Port</TableCell>
                   <TableCell>Status</TableCell>
                 </TableRow>
               </TableHead>
@@ -65,9 +64,10 @@ const ProxyList = () => {
                     <TableCell component='th' scope='row'>
                       {row.id.slice(0, 4)}*****{row.id.slice(32, 36)}
                     </TableCell>
-                    <TableCell>{row.listenAddr}</TableCell>
+                    <TableCell>
+                      {row.listenAddr}:{row.listenPort}
+                    </TableCell>
                     <TableCell>{row.outgoingCountry}</TableCell>
-                    <TableCell>{row.listenPort}</TableCell>
                     <TableCell>
                       <div className='flex items-center gap-1'>{row.status}</div>
                     </TableCell>

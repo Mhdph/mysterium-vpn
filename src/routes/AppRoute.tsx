@@ -4,6 +4,7 @@ import UnProtectedRoute from './UnProtectedRoute';
 import ProtectedRoute from './ProtectedRoute';
 import {FavouriteList, Login, Provider, Identity, TodayList} from '../pages';
 import Dashboard from '../components/Dashboard';
+import Loading from '../components/Loading';
 
 export const DashboardRoutes = [
   {path: '/favouriteList', component: <FavouriteList />},
@@ -12,7 +13,7 @@ export const DashboardRoutes = [
   {path: '/identity', component: <Identity />},
 ];
 
-const renderLoader = () => <p>Loading</p>;
+const renderLoader = () => <Loading />;
 
 function AppRoutes() {
   return (

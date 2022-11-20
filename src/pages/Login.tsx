@@ -1,6 +1,6 @@
 import React from 'react';
 import bgLogin from '../assets/bg-login.jpg';
-import {AtSymbolIcon, EyeIcon} from '@heroicons/react/24/solid';
+import {AtSymbolIcon, EyeSlashIcon, EyeIcon} from '@heroicons/react/24/solid';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import {baseUrl} from '../config';
@@ -8,6 +8,7 @@ import {baseUrl} from '../config';
 function Login() {
   const [username, setusername] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [passwordShown, setPasswordShown] = React.useState(false);
   const [error, setError] = React.useState(false);
   const navigate = useNavigate();
 
@@ -24,6 +25,10 @@ function Login() {
       console.log(err);
       setError(true);
     }
+  };
+
+  const togglePassword = () => {
+    setPasswordShown(!passwordShown);
   };
 
   return (
@@ -59,18 +64,22 @@ function Login() {
             </label>
             <div className='relative'>
               <input
-                type='password'
+                type={passwordShown ? 'text' : 'password'}
                 className='w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm'
                 placeholder='Enter password'
                 onChange={(e) => setPassword(e.target.value)}
               />
 
               <span className='absolute inset-y-0 right-4 inline-flex items-center'>
-                <EyeIcon className='h-5 w-5 text-gray-400' />
+                {passwordShown ? (
+                  <EyeIcon className='h-5 w-5 text-gray-400' onClick={togglePassword} />
+                ) : (
+                  <EyeSlashIcon className='h-5 w-5 text-gray-400' onClick={togglePassword} />
+                )}
               </span>
             </div>
           </div>
-          {error && <p className='text-center text-base text-red-600'>ٍEmail or password is wrond</p>}
+          {error && <p className='text-center text-base text-red-600'>ٍEmail or password incorrect</p>}
 
           <div className='flex items-center justify-between'>
             <button

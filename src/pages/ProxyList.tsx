@@ -12,7 +12,8 @@ import {
 import {useQuery} from 'react-query';
 import {getProxy} from '../config';
 import Loading from '../components/Loading';
-import ProviderConnected from '../components/ProviderConnected';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import ReactCountryFlag from 'react-country-flag';
 
 interface Proxy {
   listenPort: number;
@@ -20,6 +21,7 @@ interface Proxy {
   status: number;
   id: string;
   outgoingCountry: string;
+  identityId: string;
 }
 
 const ProxyList = () => {
@@ -52,24 +54,43 @@ const ProxyList = () => {
             <Table sx={{minWidth: 650}} aria-label='simple table'>
               <TableHead className='tableHead'>
                 <TableRow>
-                  <TableCell>‌Id</TableCell>
-                  <TableCell>‌Ip:Port</TableCell>
+                  <TableCell>‌Local Id</TableCell>
+                  <TableCell>‌IP:Port</TableCell>
                   <TableCell>Country</TableCell>
                   <TableCell>Status</TableCell>
+                  <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody className='tableBody'>
                 {data.data.map((row: Proxy) => (
                   <TableRow key={row.id} className='tableRow'>
                     <TableCell component='th' scope='row'>
-                      {row.id.slice(0, 4)}*****{row.id.slice(32, 36)}
+                      {row.identityId.slice(0, 4)}***{row.identityId.slice(32, 36)}
                     </TableCell>
                     <TableCell>
                       {row.listenAddr}:{row.listenPort}
                     </TableCell>
-                    <TableCell>{row.outgoingCountry}</TableCell>
                     <TableCell>
-                      <div className='flex items-center gap-1'>{row.status}</div>
+                      <ReactCountryFlag className='relative left-5 text-2xl' countryCode={row.outgoingCountry} svg />
+                    </TableCell>
+                    <TableCell>
+                      <div className='flex items-center gap-1'>
+                        {(() => {
+                          if (row.status === 1) {
+                            return <button className='rounded-md bg-red-500  py-1 px-2 text-white'>offline</button>;
+                          } else if (row.status === 2) {
+                            return <button className='rounded-md bg-green-500 py-1 px-2 text-white'>online</button>;
+                          } else {
+                            <button className='rounded-md bg-black  py-1 px-2 text-white'>disabled</button>;
+                          }
+                        })()}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className='flex items-center gap-1'>
+                        <StarOutlineIcon className='cursor-pointer text-gray-500 ' />
+                        <input type='checkbox' className='h-4 w-4 text-black' />
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -84,8 +105,6 @@ const ProxyList = () => {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </TableContainer>
-          <p className='my-3 w-40 rounded bg-[#111627] p-2 text-center text-white'>Connected Provider</p>
-          <ProviderConnected />
         </div>
       ) : (
         <p className='flex items-center justify-center text-2xl font-bold'>No proxy created yet</p>

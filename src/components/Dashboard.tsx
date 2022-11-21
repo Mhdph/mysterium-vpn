@@ -77,7 +77,6 @@ export default function Dashboard() {
     queryFn: userFn,
     onSuccess(data) {
       localStorage.setItem('id', data.data.id);
-      console.log(data.data);
     },
   });
 

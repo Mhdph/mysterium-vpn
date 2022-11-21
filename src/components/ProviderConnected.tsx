@@ -59,54 +59,62 @@ export default function ProviderConnected() {
 
   if (isLoading) return <Loading />;
   return (
-    <Paper sx={{width: '100%', overflow: 'hidden'}}>
-      <TableContainer sx={{maxHeight: 440}}>
-        <Table stickyHeader aria-label='sticky table'>
-          <TableHead>
-            <TableRow>
-              <TableCell>‌Id</TableCell>
-              <TableCell>Qaulity</TableCell>
-              <TableCell>‌Bandwidth</TableCell>
-              <TableCell>Latency</TableCell>
-              <TableCell>Connected clients</TableCell>
-              <TableCell>Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {ConnectedProvider.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: Data) => {
-              return (
-                <TableRow key={row.id} className='tableRow'>
-                  <TableCell component='th' scope='row'>
-                    {row.id.slice(0, 4)}*****{row.id.slice(32, 36)}
-                  </TableCell>
-                  <TableCell>{row.quality.toFixed(2)}</TableCell>
-                  <TableCell>{row.bandwidth.toFixed(2)}</TableCell>
-                  <TableCell>{row.latency.toFixed(2)}</TableCell>
-                  <TableCell className=' text-center'>{row.proxyCount}</TableCell>
-
-                  <TableCell>
-                    <button
-                      onClick={() => onDisconnectHandler(row.id)}
-                      className={clsx(row.isRegister ? 'bg-red-500' : ' bg-green-500 ', 'rounded px-2 py-1 text-white')}
-                    >
-                      {row.isRegister ? 'Disconnect' : 'Connect'}
-                    </button>
-                  </TableCell>
+    <div>
+      {ConnectedProvider.data.length === 0 ? null : (
+        <Paper sx={{width: '100%', overflow: 'hidden'}}>
+          <TableContainer sx={{maxHeight: 440}}>
+            <Table stickyHeader aria-label='sticky table'>
+              <TableHead>
+                <TableRow>
+                  <TableCell>‌Id</TableCell>
+                  <TableCell>Quality</TableCell>
+                  <TableCell>‌Bandwidth</TableCell>
+                  <TableCell>Latency</TableCell>
+                  <TableCell>Connected Clients</TableCell>
+                  <TableCell>Action</TableCell>
                 </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component='div'
-        count={ConnectedProvider.data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
+              </TableHead>
+              <TableBody>
+                {ConnectedProvider.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: Data) => {
+                  return (
+                    <TableRow key={row.id}>
+                      <TableCell component='th' scope='row'>
+                        {row.id.slice(0, 4)}*****{row.id.slice(32, 36)}
+                      </TableCell>
+                      <TableCell>{row.quality.toFixed(2)}</TableCell>
+                      <TableCell>{row.bandwidth.toFixed(2)}</TableCell>
+                      <TableCell>{row.latency.toFixed(2)}</TableCell>
+                      <TableCell>
+                        <p className='relative right-10 text-center'>{row.proxyCount}</p>
+                      </TableCell>
+                      <TableCell>
+                        <button
+                          onClick={() => onDisconnectHandler(row.id)}
+                          className={clsx(
+                            row.isRegister ? 'bg-red-500' : ' bg-green-500 ',
+                            'rounded px-2 py-1 text-white',
+                          )}
+                        >
+                          {row.isRegister ? 'Disconnect' : 'Connect'}
+                        </button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[10, 25, 100]}
+            component='div'
+            count={ConnectedProvider.data.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </Paper>
+      )}
+    </div>
   );
 }

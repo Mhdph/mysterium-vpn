@@ -58,6 +58,8 @@ export const connectProviderFn = async (providerId: string, formData?: any) => {
 // users
 
 export const userFn = async () => {
-  const response = await api.get('/users/me', {headers: {Authorization: `Bearer ${token}`}});
+  const response = await axios.get('http://92.42.46.74:3000/api/v1/users/me', {
+    headers: {Authorization: `Bearer ${token}`},
+  });
   return response.data;
 };

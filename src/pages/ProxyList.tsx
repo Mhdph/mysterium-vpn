@@ -44,13 +44,15 @@ const ProxyList = () => {
 
   if (isLoading) return <Loading />;
 
+  console.log(data);
+
   return (
     <div>
       {data.data ? (
         <div>
           <p className='my-3 w-24 rounded bg-[#111627] p-2 text-center text-white'>Proxy List</p>
 
-          <TableContainer component={Paper} className='table'>
+          <TableContainer component={Paper}>
             <Table sx={{minWidth: 650}} aria-label='simple table'>
               <TableHead className='tableHead'>
                 <TableRow>

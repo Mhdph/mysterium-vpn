@@ -1,20 +1,19 @@
-import * as React from 'react';
-import {styled, useTheme} from '@mui/material/styles';
-import {Divider, Drawer, Toolbar, Typography, IconButton} from '../components/mui';
+import MuiAppBar, {AppBarProps as MuiAppBarProps} from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar, {AppBarProps as MuiAppBarProps} from '@mui/material/AppBar';
-import {ArrowSmallLeftIcon, ArrowSmallRightIcon, Bars4Icon} from '@heroicons/react/24/solid';
+import {styled, useTheme} from '@mui/material/styles';
+import * as React from 'react';
+import {useQuery} from 'react-query';
 import {Route, Routes} from 'react-router-dom';
-import ProtectedRoute from '../routes/ProtectedRoute';
+import peoxypic from '../assets/proxy.png';
+import {Divider, Drawer, Toolbar} from '../components/mui';
+import {userFn} from '../config';
 import {ProxyList} from '../pages';
 import {DashboardRoutes} from '../routes/AppRoute';
+import ProtectedRoute from '../routes/ProtectedRoute';
 import DashboardList from './DashboardList';
-import peoxypic from '../assets/proxy.png';
-import NavUser from './NavUser';
-import {userFn} from '../config';
-import {useQuery} from 'react-query';
 import Loading from './Loading';
+import NavUser from './NavUser';
 
 const drawerWidth = 240;
 
@@ -90,14 +89,6 @@ export default function Dashboard() {
     setAnchorElUser(null);
   };
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
   return (
     <Box sx={{display: 'flex'}}>
       <CssBaseline />
@@ -141,13 +132,6 @@ export default function Dashboard() {
       >
         <DrawerHeader className='flex justify-between'>
           <p className='text-sm font-semibold text-gray-500'>Mysterium Proxy</p>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? (
-              <ArrowSmallLeftIcon className='h-5 w-5 text-gray-500' />
-            ) : (
-              <ArrowSmallRightIcon className='h-5 w-5 text-gray-500' />
-            )}
-          </IconButton>
         </DrawerHeader>
         <div className='flex items-center justify-center'>
           <img src={peoxypic} className=' h-32 w-32' alt='' />

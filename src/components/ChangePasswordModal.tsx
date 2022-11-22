@@ -3,10 +3,13 @@ import {XMarkIcon} from '@heroicons/react/24/solid';
 import {baseUrl} from '../config';
 import axios from 'axios';
 import {toast} from 'react-toastify';
+import {useNavigate} from 'react-router-dom';
 
 const ChangePassword = ({showModal, setShowModal}: any) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const navigate = useNavigate();
 
   const ChangePasswordFn = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -14,15 +17,19 @@ const ChangePassword = ({showModal, setShowModal}: any) => {
     const usersId = localStorage.getItem('id');
 
     try {
-      const res = await axios.post(
+      const res = await axios.patch(
         `${baseUrl}/users/${usersId}`,
         {
+          currentPassword,
           password: password,
           confirmPassword: confirmPassword,
         },
         {headers: {Authorization: `Bearer ${token}`}},
       );
-      toast.success('Password Changed successfully');
+      toast.success('Password Changed successfully', {
+        autoClose: 2000,
+      });
+      navigate('/login');
     } catch (err) {
       console.log(err);
       toast.error('Something is wrong');
@@ -41,11 +48,21 @@ const ChangePassword = ({showModal, setShowModal}: any) => {
                   <XMarkIcon onClick={() => setShowModal(false)} className='h-5 w-5 cursor-pointer text-gray-800' />
                 </div>
                 <div className='mb-4'>
+                  <label className='mb-2 block text-sm font-bold text-gray-700'>Current Password</label>
+                  <input
+                    className='focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 shadow focus:outline-none'
+                    id='password'
+                    type='password'
+                    placeholder='currentPassword'
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                  />
+                </div>
+                <div className='mb-4'>
                   <label className='mb-2 block text-sm font-bold text-gray-700'>Password</label>
                   <input
                     className='focus:shadow-outline w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 shadow focus:outline-none'
                     id='password'
-                    type='text'
+                    type='password'
                     placeholder='password'
                     onChange={(e) => setPassword(e.target.value)}
                   />

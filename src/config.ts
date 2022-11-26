@@ -8,7 +8,7 @@ export const api = axios.create({
 });
 
 export const getProxy = async () => {
-  const response = await api.get('/proxy', {headers: {Authorization: `Bearer ${token}`}});
+  const response = await api.get('/proxyy', {headers: {Authorization: `Bearer ${token}`}});
   return response.data;
 };
 

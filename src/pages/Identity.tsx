@@ -131,47 +131,53 @@ function Identity() {
           </div>
         </div>
       </div>
-      <TableContainer component={Paper} className='mt-6'>
-        <Table sx={{minWidth: 650}} aria-label='simple table'>
-          <TableHead>
-            <TableRow>
-              <TableCell>‌Identity</TableCell>
-              <TableCell>In Use</TableCell>
-              <TableCell>Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.data.map((row: IdentityData) => (
-              <TableRow key={row.id}>
-                <TableCell component='th' scope='row'>
-                  {row.identity}
-                </TableCell>
-                <TableCell>
-                  <p className={clsx(row.isUse === false ? 'text-green-600' : 'text-red-500')}>
-                    {row.isUse === false ? 'No' : 'Yes'}
-                  </p>
-                </TableCell>
-                <TableCell>
-                  <button
-                    onClick={() => onDeleteHandler(row.id)}
-                    className='rounded-md bg-red-600 p-2 font-bold text-white'
-                  >
-                    Delete Identity
-                  </button>
-                </TableCell>
+      {data?.data ? (
+        <TableContainer component={Paper} className='mt-6'>
+          <Table sx={{minWidth: 650}} aria-label='simple table'>
+            <TableHead>
+              <TableRow>
+                <TableCell>‌Identity</TableCell>
+                <TableCell>In Use</TableCell>
+                <TableCell>Action</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <TablePagination
-          component='div'
-          count={100}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {data.data.map((row: IdentityData) => (
+                <TableRow key={row.id}>
+                  <TableCell component='th' scope='row'>
+                    {row.identity}
+                  </TableCell>
+                  <TableCell>
+                    <p className={clsx(row.isUse === false ? 'text-green-600' : 'text-red-500')}>
+                      {row.isUse === false ? 'No' : 'Yes'}
+                    </p>
+                  </TableCell>
+                  <TableCell>
+                    <button
+                      onClick={() => onDeleteHandler(row.id)}
+                      className='rounded-md bg-red-600 p-2 font-bold text-white'
+                    >
+                      Delete Identity
+                    </button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <TablePagination
+            component='div'
+            count={100}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </TableContainer>
+      ) : (
+        <p className='flex items-center justify-center text-2xl font-bold'>
+          {error instanceof Error && 'Something went wrong'}
+        </p>
+      )}
     </div>
   );
 }

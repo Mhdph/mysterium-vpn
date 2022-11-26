@@ -4,6 +4,7 @@ import {AtSymbolIcon, EyeSlashIcon, EyeIcon} from '@heroicons/react/24/solid';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import {baseUrl} from '../config';
+import jwt_decode from 'jwt-decode';
 
 function Login() {
   const [username, setusername] = React.useState('');
@@ -20,6 +21,9 @@ function Login() {
         password: password,
       });
       localStorage.setItem('token', res.data.data);
+      const decodedJwt = jwt_decode(res.data.data);
+      console.log(decodedJwt);
+
       navigate('/');
     } catch (err) {
       console.log(err);

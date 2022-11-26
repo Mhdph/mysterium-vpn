@@ -37,18 +37,19 @@ const ProxyList = () => {
     setPage(0);
   };
 
-  const {isLoading, data} = useQuery({
+  const {isLoading, data, error} = useQuery({
     queryKey: ['proxy'],
     queryFn: getProxy,
   });
 
   if (isLoading) return <Loading />;
-
-  console.log(data);
+  if (error instanceof Error) {
+    <p>error.message</p>;
+  }
 
   return (
     <div>
-      {data.data ? (
+      {data?.data ? (
         <div>
           <p className='my-3 w-24 rounded bg-[#111627] p-2 text-center text-white'>Proxy List</p>
 
@@ -109,7 +110,9 @@ const ProxyList = () => {
           </TableContainer>
         </div>
       ) : (
-        <p className='flex items-center justify-center text-2xl font-bold'>No proxy created yet</p>
+        <p className='flex items-center justify-center text-2xl font-bold'>
+          {error instanceof Error && 'Something went wrong'}
+        </p>
       )}
     </div>
   );

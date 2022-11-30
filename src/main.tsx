@@ -1,12 +1,14 @@
+import {StyledEngineProvider} from '@mui/material';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import {QueryClient, QueryClientProvider} from 'react-query';
+import {Provider} from 'react-redux';
 import {BrowserRouter} from 'react-router-dom';
-import './index.css';
-import {QueryClientProvider, QueryClient} from 'react-query';
-import {StyledEngineProvider} from '@mui/material';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import App from './App';
+import {store} from './app/sore';
+import './index.css';
 
 const queryClinet = new QueryClient();
 
@@ -16,7 +18,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <StyledEngineProvider injectFirst>
         <BrowserRouter>
           <ToastContainer />
-          <App />
+          <Provider store={store}>
+            <App />
+          </Provider>
         </BrowserRouter>
       </StyledEngineProvider>
     </QueryClientProvider>

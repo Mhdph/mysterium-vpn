@@ -102,7 +102,7 @@ export default function Provider() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: Data) => {
+              {data?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: Data) => {
                 return (
                   <TableRow key={row.id} className='tableRow'>
                     <TableCell component='th' scope='row'>

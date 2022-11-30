@@ -5,6 +5,8 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import {baseUrl} from '../config';
 import jwt_decode from 'jwt-decode';
+import {useDispatch, useSelector} from 'react-redux';
+import {loginFailure, loginStart, loginSuccess} from '../app/userSlice';
 
 function Login() {
   const [username, setusername] = React.useState('');
@@ -12,6 +14,7 @@ function Login() {
   const [passwordShown, setPasswordShown] = React.useState(false);
   const [error, setError] = React.useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -22,11 +25,10 @@ function Login() {
       });
       localStorage.setItem('token', res.data.data);
       const decodedJwt = jwt_decode(res.data.data);
-      console.log(decodedJwt);
-
+      dispatch(loginSuccess(decodedJwt));
       navigate('/');
     } catch (err) {
-      console.log(err);
+      dispatch(loginFailure());
       setError(true);
     }
   };

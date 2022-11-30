@@ -5,3 +5,4 @@ export const ProxyList = lazy(() => import('./ProxyList'));
 export const Login = lazy(() => import('./Login'));
 export const Provider = lazy(() => import('./Provider'));
 export const Identity = lazy(() => import('./Identity'));
+export const Acl = lazy(() => import('./Acl'));

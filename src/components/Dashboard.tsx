@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import {styled, useTheme} from '@mui/material/styles';
 import * as React from 'react';
 import {useQuery} from 'react-query';
+import {useSelector} from 'react-redux';
 import {Route, Routes} from 'react-router-dom';
 import peoxypic from '../assets/proxy.png';
 import {Divider, Drawer, Toolbar} from '../components/mui';
@@ -67,7 +68,6 @@ const DrawerHeader = styled('div')(({theme}) => ({
 }));
 
 export default function Dashboard() {
-  const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 

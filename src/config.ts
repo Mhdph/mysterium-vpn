@@ -2,13 +2,13 @@ import axios from 'axios';
 
 export const baseUrl = 'http://92.42.46.74:3000/api/v1';
 
-const token = localStorage.getItem('token');
+export const token = localStorage.getItem('token');
 export const api = axios.create({
   baseURL: 'http://92.42.46.74:3000/api/v1',
 });
 
 export const getProxy = async () => {
-  const response = await api.get('/proxyy', {headers: {Authorization: `Bearer ${token}`}});
+  const response = await api.get('/proxy', {headers: {Authorization: `Bearer ${token}`}});
   return response.data;
 };
 
@@ -61,5 +61,22 @@ export const userFn = async () => {
   const response = await axios.get('http://92.42.46.74:3000/api/v1/users/me', {
     headers: {Authorization: `Bearer ${token}`},
   });
+  return response.data;
+};
+
+export const allUserFn = async () => {
+  const response = await api.get('/users', {headers: {Authorization: `Bearer ${token}`}});
+  return response.data;
+};
+
+// acl
+
+export const Aclfn = async () => {
+  const response = await api.get('/acl', {headers: {Authorization: `Bearer ${token}`}});
+  return response.data;
+};
+
+export const deleteAclFn = async (aclId: string) => {
+  const response = await api.delete<any>(`/acl/${aclId}`, {headers: {Authorization: `Bearer ${token}`}});
   return response.data;
 };

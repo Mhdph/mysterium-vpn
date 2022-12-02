@@ -11,7 +11,7 @@ import {
 import {useSelector} from 'react-redux';
 
 function DashboardList() {
-  const {currentUser} = useSelector((state: any) => state.user);
+  const user = localStorage.getItem('user');
 
   return (
     <div>
@@ -40,7 +40,7 @@ function DashboardList() {
             <p className='font-inter mx-1 text-sm'>Favourite List</p>
           </ListItem>
         </NavLink>
-        {currentUser.role === 'admin' ? (
+        {user === 'admin' ? (
           <div>
             <NavLink
               className={({isActive}) => (isActive ? 'font-semibold text-white' : 'undifined')}
@@ -66,7 +66,7 @@ function DashboardList() {
             >
               <ListItem className='mb-1 hover:rounded-lg hover:bg-dashboard-hover hover:px-2'>
                 <HandRaisedIcon className='h-5 w-5' />
-                <p className='font-inter mx-1 text-sm'>ACL</p>
+                <a className='font-inter mx-1 text-sm'>ACL</a>
               </ListItem>
             </NavLink>
           </div>

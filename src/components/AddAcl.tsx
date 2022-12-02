@@ -5,6 +5,8 @@ import {allUserFn, api} from '../config';
 import Loading from './Loading';
 import {PlusCircleIcon} from '@heroicons/react/24/solid';
 import {toast} from 'react-toastify';
+import {XMarkIcon} from '@heroicons/react/24/solid';
+import {Tooltip} from '../components/mui';
 
 interface userList {
   id: string;
@@ -38,31 +40,59 @@ export default function AddAcl({closeModal, openModal, isOpen}: any) {
     setAcessType(event.target.value);
   };
 
+  function Close() {
+    closeModal();
+    setItems([]);
+    (document.getElementById('roundePort') as HTMLInputElement).value = '';
+  }
+
   const token = localStorage.getItem('token');
   const Aclfn = async () => {
     await api.get('/acl', {headers: {Authorization: `Bearer ${token}`}});
   };
   const CreateAclfn = async () => {
-    try {
-      await api.post(
-        '/acl',
-        {
-          mode: accessType,
-          type: 1,
-          user:
-            {
+    if (userId === '') {
+      try {
+        await api.post(
+          '/acl',
+          {
+            mode: accessType,
+            type: 1,
+            proxies: items,
+          },
+          {headers: {Authorization: `Bearer ${token}`}},
+        );
+        toast.success('acl added successfully');
+        closeModal();
+        Aclfn();
+        (document.getElementById('roundePort') as HTMLInputElement).value = '';
+      } catch (error) {
+        console.log(error);
+        toast.error('Something went wrong');
+      }
+    } else {
+      try {
+        await api.post(
+          '/acl',
+          {
+            mode: accessType,
+            type: 1,
+            user: {
               id: userId,
-            } || null,
-          proxies: items,
-        },
-        {headers: {Authorization: `Bearer ${token}`}},
-      );
-      toast.success('acl added successfully');
-      closeModal();
-      Aclfn();
-    } catch (error) {
-      console.log(error);
-      toast.error('Something went wrong');
+            },
+            proxies: items,
+          },
+          {headers: {Authorization: `Bearer ${token}`}},
+        );
+        toast.success('acl added successfully');
+        setItems([]);
+        closeModal();
+        Aclfn();
+        (document.getElementById('roundePort') as HTMLInputElement).value = '';
+      } catch (error) {
+        console.log(error);
+        toast.error('Something went wrong');
+      }
     }
   };
 
@@ -79,7 +109,7 @@ export default function AddAcl({closeModal, openModal, isOpen}: any) {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as='div' className='relative z-10' onClose={closeModal}>
+        <Dialog as='div' className='relative z-10' onClose={Close}>
           <Transition.Child
             as={Fragment}
             enter='ease-out duration-300'
@@ -104,9 +134,12 @@ export default function AddAcl({closeModal, openModal, isOpen}: any) {
                 leaveTo='opacity-0 scale-95'
               >
                 <Dialog.Panel className='w-[700px]  transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
-                  <Dialog.Title as='h3' className='text-lg font-medium leading-6 text-gray-900'>
-                    Add Acl
-                  </Dialog.Title>
+                  <div className='flex justify-between'>
+                    <Dialog.Title as='h3' className='text-lg font-medium leading-6 text-gray-900'>
+                      Add Acl
+                    </Dialog.Title>
+                    <XMarkIcon className='h-5 w-5 cursor-pointer' onClick={Close} />
+                  </div>
                   <div className='flex items-center justify-between gap-4'>
                     <div className='mt-2'>
                       <select
@@ -128,7 +161,7 @@ export default function AddAcl({closeModal, openModal, isOpen}: any) {
                         id='user'
                         onChange={(e) => setUserId(e.target.value)}
                       >
-                        <option hidden>User</option>
+                        <option value='null'>User</option>
                         {data.data.map((item: userList) => (
                           <option value={item.id}>{item.username}</option>
                         ))}
@@ -138,15 +171,17 @@ export default function AddAcl({closeModal, openModal, isOpen}: any) {
                       <div className='flex items-center gap-1'>
                         <input
                           type='text'
-                          id='rounded-email'
+                          id='roundePort'
                           className=' w-full flex-1 appearance-none rounded-lg border border-transparent border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600'
                           placeholder='Port'
                           onChange={(e) => setPortNumber(e.target.value)}
                         />
-                        <PlusCircleIcon
-                          onClick={(e) => handleAddButtonClick(e)}
-                          className='h-5 w-5 bg-green-500 text-white'
-                        />
+                        <Tooltip title='add port'>
+                          <PlusCircleIcon
+                            onClick={(e) => handleAddButtonClick(e)}
+                            className='h-5 w-5 bg-green-500 text-white'
+                          />
+                        </Tooltip>
                       </div>
                       <div className='mt-1'>
                         {items.map((item: PortList) => (

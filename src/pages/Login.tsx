@@ -24,8 +24,8 @@ function Login() {
         password: password,
       });
       localStorage.setItem('token', res.data.data);
-      const decodedJwt = jwt_decode(res.data.data);
-      dispatch(loginSuccess(decodedJwt));
+      const decodedJwt = jwt_decode<any>(res.data.data);
+      localStorage.setItem('user', decodedJwt.role);
       navigate('/');
     } catch (err) {
       dispatch(loginFailure());

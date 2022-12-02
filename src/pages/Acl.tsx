@@ -45,6 +45,7 @@ function Acl() {
 
   function closeModal() {
     setIsOpen(false);
+    (document.getElementById('roundePort') as HTMLInputElement).value = '';
   }
 
   function openModal() {
@@ -102,7 +103,7 @@ function Acl() {
                       </TableCell>
                       <TableCell>{row.mode}</TableCell>
                       <TableCell component='th' scope='row'>
-                        {row?.user.username}
+                        {row.mode === 'custom' && row.proxies[0] ? row?.user.username : null}
                       </TableCell>
                       <TableCell>
                         {row?.proxies.map((item) => (

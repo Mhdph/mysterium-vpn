@@ -1,24 +1,24 @@
 import React from 'react';
+import {useMutation, useQuery, useQueryClient} from 'react-query';
+import {toast} from 'react-toastify';
+import AddAcl from '../components/AddAcl';
+import Loading from '../components/Loading';
 import {
-  TableContainer,
   Paper,
   Table,
-  TableHead,
-  TableRow,
-  TableCell,
   TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
   TablePagination,
+  TableRow,
 } from '../components/mui';
-import {useMutation, useQuery, useQueryClient} from 'react-query';
-import {Aclfn, api, deleteAclFn, token} from '../config';
-import Loading from '../components/Loading';
-import AddAcl from '../components/AddAcl';
-import {toast} from 'react-toastify';
+import {Aclfn, deleteAclFn} from '../config';
 
 interface Acl {
   id: string;
   mode: string;
-  user: {
+  user?: {
     username: string;
   };
   proxies: [
@@ -103,10 +103,10 @@ function Acl() {
                       </TableCell>
                       <TableCell>{row.mode}</TableCell>
                       <TableCell component='th' scope='row'>
-                        {row.mode === 'custom' && row.proxies[0] ? row?.user.username : null}
+                        {row?.user?.username || 'All users'}
                       </TableCell>
                       <TableCell>
-                        {row?.proxies.map((item) => (
+                        {(row.mode === 'all' ? ['All ports'] : row?.proxies).map((item: any) => (
                           <p> {item.port}</p>
                         ))}
                       </TableCell>

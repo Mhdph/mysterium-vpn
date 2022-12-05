@@ -1,16 +1,57 @@
+import {AnyAsyncThunk} from '@reduxjs/toolkit/dist/matchers';
 import axios from 'axios';
 
 export const baseUrl = 'http://92.42.46.74:3000/api/v1';
 
 export const token = localStorage.getItem('token');
+const id = localStorage.getItem('id');
 export const api = axios.create({
   baseURL: 'http://92.42.46.74:3000/api/v1',
 });
 
 export const getProxy = async () => {
-  const response = await api.get('/proxy', {headers: {Authorization: `Bearer ${token}`}});
+  const response = await api.get(`/users/${id}/proxy`, {headers: {Authorization: `Bearer ${token}`}});
   return response.data;
 };
+
+// favourite
+export const AddFavouritefn = async (favourite: any) => {
+  const response = await api.post(`users/${id}/favorites`, favourite, {headers: {Authorization: `Bearer ${token}`}});
+  return response.data;
+};
+
+export const getAllFavouriteFn = async () => {
+  const response = await api.get(`users/${id}/favorites?filters[kind]=favorite`, {
+    headers: {Authorization: `Bearer ${token}`},
+  });
+  return response.data;
+};
+
+// today
+
+export const getAllTodayFn = async () => {
+  const response = await api.get(`users/${id}/favorites?filters[kind]=today`, {
+    headers: {Authorization: `Bearer ${token}`},
+  });
+  return response.data;
+};
+
+export const AddTodayfn = async (today: any) => {
+  const response = await api.post(`users/${id}/favorites`, today, {headers: {Authorization: `Bearer ${token}`}});
+  return response.data;
+};
+
+export const DeleteFavouritefn = async (favtodId: any) => {
+  const response = await api.delete(`users/${id}/favorites`, {
+    headers: {Authorization: `Bearer ${token}`},
+    data: {
+      proxiesList: [favtodId],
+    },
+  });
+  return response.data;
+};
+
+//Identity
 
 export const getIdentityFn = async () => {
   const response = await api.get('/identity/myst', {headers: {Authorization: `Bearer ${token}`}});
@@ -30,7 +71,9 @@ export const createIdentityFn = async (formData: FormData) => {
 // provider
 
 export const getAllProviderFn = async () => {
-  const response = await api.get('/provider/myst?filters[country]=GB', {headers: {Authorization: `Bearer ${token}`}});
+  const response = await api.get('/provider/myst?filters[country]=GB&filters[providerIpType]=residential', {
+    headers: {Authorization: `Bearer ${token}`},
+  });
   return response.data;
 };
 

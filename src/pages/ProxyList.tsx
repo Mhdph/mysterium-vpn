@@ -10,7 +10,7 @@ import {
   TablePagination,
 } from '../components/mui';
 import {useMutation, useQuery} from 'react-query';
-import {AddFavouritefn, AddTodayfn, getProxy} from '../config';
+import {AddFavouritefn, AddTodayfn, api, getProxy, token} from '../config';
 import Loading from '../components/Loading';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import ReactCountryFlag from 'react-country-flag';
@@ -23,12 +23,14 @@ interface Proxy {
   id: string;
   outgoingCountry: string;
   identityId: string;
+  userIdentity: string;
 }
 
 const ProxyList = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [note, setNote] = React.useState('');
+  const [getId, setGetId] = React.useState('');
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPage: number) => {
     setPage(newPage);
@@ -49,8 +51,8 @@ const ProxyList = () => {
       toast.success('The proxy added to your favourite list successfully');
       (document.getElementById('noteId') as HTMLInputElement).value = '';
     },
-    onError: () => {
-      toast.error('Some thing went wrong');
+    onError: (error: any) => {
+      toast.error(`Something went wrong: ${error.response.data.message}`);
     },
   });
 
@@ -61,8 +63,8 @@ const ProxyList = () => {
       inputs.checked = false;
       (document.getElementById('noteId') as HTMLInputElement).value = '';
     },
-    onError: () => {
-      toast.error('Some thing went wrong');
+    onError: (error: any) => {
+      toast.error(`Something went wrong: ${error.response.data.message}`);
     },
   });
 
@@ -117,6 +119,17 @@ const ProxyList = () => {
     <p>error.message</p>;
   }
 
+  const GetId = async (id: any) => {
+    try {
+      const response = await api.get(`identity/myst/${id}`, {
+        headers: {Authorization: `Bearer ${token}`},
+      });
+      setGetId(response?.data.identity);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       {data?.data ? (
@@ -138,8 +151,8 @@ const ProxyList = () => {
               <TableBody className='tableBody'>
                 {data.data.map((row: Proxy) => (
                   <TableRow key={row.id} className='tableRow'>
-                    <TableCell component='th' scope='row'>
-                      {row.id.slice(0, 4)}***{row.id.slice(32, 36)}
+                    <TableCell className='text-xs' component='th' scope='row'>
+                      {row.userIdentity}
                     </TableCell>
                     <TableCell>
                       {row.listenAddr}:{row.listenPort}

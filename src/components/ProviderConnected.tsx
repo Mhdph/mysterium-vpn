@@ -31,14 +31,14 @@ export default function ProviderConnected() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const queryClient = useQueryClient();
   const {isLoading, data: ConnectedProvider} = useQuery({
-    queryKey: ['provider'],
+    queryKey: ['providerconnected'],
     queryFn: getAllProviderConnectedFn,
   });
 
   const {mutate: disconnectProvider} = useMutation((providerId: string) => disconnectProviderFn(providerId), {
     onSuccess() {
-      queryClient.invalidateQueries('provider');
-      toast.success('Proxy deleted successfully');
+      queryClient.invalidateQueries('providerconnected');
+      toast.success('provider disconnect successfully');
     },
   });
 

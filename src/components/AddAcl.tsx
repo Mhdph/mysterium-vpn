@@ -1,7 +1,7 @@
 import {Dialog, Transition} from '@headlessui/react';
 import React, {Fragment, useState} from 'react';
-import {useQuery} from 'react-query';
-import {allUserFn, api} from '../config';
+import {useQuery, useQueryClient} from 'react-query';
+import {Aclfn, allUserFn, api} from '../config';
 import Loading from './Loading';
 import {PlusCircleIcon} from '@heroicons/react/24/solid';
 import {toast} from 'react-toastify';
@@ -22,6 +22,7 @@ export default function AddAcl({closeModal, openModal, isOpen}: any) {
   const [items, setItems] = useState<any>([]);
   const [userId, setUserId] = React.useState('');
   const [accessType, setAcessType] = useState('all');
+  const queryClient = useQueryClient();
 
   const handleAddButtonClick = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -47,9 +48,10 @@ export default function AddAcl({closeModal, openModal, isOpen}: any) {
   }
 
   const token = localStorage.getItem('token');
-  const Aclfn = async () => {
-    await api.get('/acl', {headers: {Authorization: `Bearer ${token}`}});
-  };
+  const {data: dataAcl} = useQuery({
+    queryKey: ['acl'],
+    queryFn: Aclfn,
+  });
   const CreateAclfn = async () => {
     if (userId === '') {
       try {
@@ -64,7 +66,7 @@ export default function AddAcl({closeModal, openModal, isOpen}: any) {
         );
         toast.success('acl added successfully');
         closeModal();
-        Aclfn();
+        queryClient.invalidateQueries('acl');
         (document.getElementById('roundePort') as HTMLInputElement).value = '';
       } catch (error) {
         console.log(error);

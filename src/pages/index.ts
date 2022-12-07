@@ -1,8 +1,7 @@
-import {lazy} from 'react';
-export const FavouriteList = lazy(() => import('./FavouriteList'));
-export const TodayList = lazy(() => import('./TodayList'));
-export const ProxyList = lazy(() => import('./ProxyList'));
-export const Login = lazy(() => import('./Login'));
-export const Provider = lazy(() => import('./Provider'));
-export const Identity = lazy(() => import('./Identity'));
-export const Acl = lazy(() => import('./Acl'));
+export {default as FavouriteList} from './FavouriteList';
+export {default as TodayList} from './TodayList';
+export {default as ProxyList} from './ProxyList';
+export {default as Login} from './Login';
+export {default as Provider} from './Provider';
+export {default as Identity} from './Identity';
+export {default as Acl} from './Acl';

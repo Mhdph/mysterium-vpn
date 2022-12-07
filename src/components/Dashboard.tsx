@@ -1,19 +1,15 @@
 import MuiAppBar, {AppBarProps as MuiAppBarProps} from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import {styled, useTheme} from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import * as React from 'react';
-import {useQuery} from 'react-query';
-import {useSelector} from 'react-redux';
 import {Route, Routes} from 'react-router-dom';
 import peoxypic from '../assets/proxy.png';
 import {Divider, Drawer, Toolbar} from '../components/mui';
-import {userFn} from '../config';
 import {ProxyList} from '../pages';
 import {DashboardRoutes} from '../routes/AppRoute';
 import ProtectedRoute from '../routes/ProtectedRoute';
 import DashboardList from './DashboardList';
-import Loading from './Loading';
 import NavUser from './NavUser';
 
 const drawerWidth = 240;
@@ -71,16 +67,6 @@ export default function Dashboard() {
   const [open, setOpen] = React.useState(true);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-  const {isLoading, data} = useQuery({
-    queryKey: ['user'],
-    queryFn: userFn,
-    onSuccess(data) {
-      localStorage.setItem('id', data.data.id);
-    },
-  });
-
-  if (isLoading) return <Loading />;
-
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -105,7 +91,6 @@ export default function Dashboard() {
           <div className='flex items-center'>
             <div className='mx-2 flex flex-col font-Inter'>
               <p className='text-sm font-medium text-black'>Welcome</p>
-              <p className='text-right text-xs text-gray-700'>{data.data.username}</p>
             </div>
             <NavUser
               anchorElUser={anchorElUser}

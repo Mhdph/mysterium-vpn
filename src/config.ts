@@ -14,6 +14,11 @@ export const getProxy = async () => {
   return response.data;
 };
 
+export const getAllProxyFn = async () => {
+  const response = await api.get(`/proxy`, {headers: {Authorization: `Bearer ${token}`}});
+  return response.data;
+};
+
 // favourite
 export const AddFavouritefn = async (favourite: any) => {
   const response = await api.post(`users/${id}/favorites`, favourite, {headers: {Authorization: `Bearer ${token}`}});
@@ -71,7 +76,7 @@ export const createIdentityFn = async (formData: FormData) => {
 // provider
 
 export const getAllProviderFn = async () => {
-  const response = await api.get('/provider/myst?filters[country]=GB&filters[providerIpType]=residential', {
+  const response = await api.get('/provider/myst?filters[country]=GB&filters[providerIpType]=residential&limit=500&', {
     headers: {Authorization: `Bearer ${token}`},
   });
   return response.data;

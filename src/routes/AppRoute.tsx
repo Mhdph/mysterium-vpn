@@ -18,17 +18,15 @@ const renderLoader = () => <Loading />;
 
 function AppRoutes() {
   return (
-    <Suspense fallback={renderLoader()}>
-      <Routes>
-        <Route element={<UnProtectedRoute />}>
-          <Route path='/login' element={<Login />} />
-        </Route>
-        <Route element={<ProtectedRoute />}>
-          <Route index element={<Dashboard />} />
-          <Route path='dashboard/*' element={<Dashboard />} />
-        </Route>
-      </Routes>
-    </Suspense>
+    <Routes>
+      <Route element={<UnProtectedRoute />}>
+        <Route path='/login' element={<Login />} />
+      </Route>
+      <Route element={<ProtectedRoute />}>
+        <Route index element={<Dashboard />} />
+        <Route path='dashboard/*' element={<Dashboard />} />
+      </Route>
+    </Routes>
   );
 }
 

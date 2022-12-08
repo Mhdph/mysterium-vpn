@@ -24,6 +24,7 @@ interface Data {
   isRegister: boolean;
   providerStatus: string;
   proxyCount: number;
+  providerIdentity: string;
 }
 
 export default function ProviderConnected() {
@@ -79,7 +80,7 @@ export default function ProviderConnected() {
                   return (
                     <TableRow key={row.id}>
                       <TableCell component='th' scope='row'>
-                        {row.id.slice(0, 4)}*****{row.id.slice(32, 36)}
+                        {row.providerIdentity}
                       </TableCell>
                       <TableCell>{row.quality.toFixed(2)}</TableCell>
                       <TableCell>{row.bandwidth.toFixed(2)}</TableCell>

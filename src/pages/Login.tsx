@@ -1,12 +1,12 @@
-import React from 'react';
-import bgLogin from '../assets/bg-login.jpg';
-import {AtSymbolIcon, EyeSlashIcon, EyeIcon} from '@heroicons/react/24/solid';
+import {AtSymbolIcon, EyeIcon, EyeSlashIcon} from '@heroicons/react/24/solid';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
-import {baseUrl} from '../config';
 import jwt_decode from 'jwt-decode';
-import {useDispatch, useSelector} from 'react-redux';
-import {loginFailure, loginStart, loginSuccess} from '../app/userSlice';
+import React from 'react';
+import {useDispatch} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
+import {loginFailure} from '../app/userSlice';
+import bgLogin from '../assets/bg-login.jpg';
+import {baseUrl} from '../config';
 
 function Login() {
   const [username, setusername] = React.useState('');
@@ -26,6 +26,7 @@ function Login() {
       localStorage.setItem('token', res.data.data);
       const decodedJwt = jwt_decode<any>(res.data.data);
       localStorage.setItem('user', decodedJwt.role);
+      localStorage.setItem('id', decodedJwt.userId);
       navigate('/');
     } catch (err) {
       dispatch(loginFailure());

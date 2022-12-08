@@ -13,8 +13,8 @@ const ChangePassword = ({showModal, setShowModal}: any) => {
 
   const ChangePasswordFn = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
     const usersId = localStorage.getItem('id');
+    const token = localStorage.getItem('token');
 
     try {
       const res = await axios.patch(

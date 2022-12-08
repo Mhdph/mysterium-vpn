@@ -1,20 +1,20 @@
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import React from 'react';
+import ReactCountryFlag from 'react-country-flag';
+import {useMutation} from 'react-query';
+import {toast} from 'react-toastify';
+import Loading from '../components/Loading';
 import {
-  TableContainer,
   Paper,
   Table,
-  TableHead,
-  TableRow,
-  TableCell,
   TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
   TablePagination,
+  TableRow,
 } from '../components/mui';
-import {useMutation, useQuery} from 'react-query';
-import {AddFavouritefn, AddTodayfn, api, getProxy, token} from '../config';
-import Loading from '../components/Loading';
-import StarOutlineIcon from '@mui/icons-material/StarOutline';
-import ReactCountryFlag from 'react-country-flag';
-import {toast} from 'react-toastify';
+import {AddFavouritefn, AddTodayfn, api} from '../config';
 
 interface Proxy {
   listenPort: number;
@@ -30,8 +30,9 @@ const ProxyList = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [note, setNote] = React.useState('');
-  const [getId, setGetId] = React.useState('');
-
+  const [data, setData] = React.useState<any>([]);
+  const [error, setError] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPage: number) => {
     setPage(newPage);
   };
@@ -41,10 +42,21 @@ const ProxyList = () => {
     setPage(0);
   };
 
-  const {isLoading, data, error} = useQuery({
-    queryKey: ['proxy'],
-    queryFn: getProxy,
-  });
+  const getProxy = async () => {
+    const token = localStorage.getItem('token');
+    const id = localStorage.getItem('id');
+    try {
+      const response = await api.get<any>(`/users/${id}/proxy`, {headers: {Authorization: `Bearer ${token}`}});
+      setData(response.data);
+      setLoading(false);
+    } catch (error) {
+      setError(true);
+    }
+  };
+
+  React.useEffect(() => {
+    getProxy();
+  }, []);
 
   const {mutate: AddtoFavourite} = useMutation((favourite: any) => AddFavouritefn(favourite), {
     onSuccess: () => {
@@ -114,21 +126,7 @@ const ProxyList = () => {
     }
   };
 
-  if (isLoading) return <Loading />;
-  if (error instanceof Error) {
-    <p>error.message</p>;
-  }
-
-  const GetId = async (id: any) => {
-    try {
-      const response = await api.get(`identity/myst/${id}`, {
-        headers: {Authorization: `Bearer ${token}`},
-      });
-      setGetId(response?.data.identity);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  if (loading) return <Loading />;
 
   return (
     <div>
@@ -210,9 +208,7 @@ const ProxyList = () => {
           </TableContainer>
         </div>
       ) : (
-        <p className='flex items-center justify-center text-2xl font-bold'>
-          {error instanceof Error && 'Something went wrong'}
-        </p>
+        <p className='flex items-center justify-center text-2xl font-bold'>{error && 'Something went wrong'}</p>
       )}
     </div>
   );

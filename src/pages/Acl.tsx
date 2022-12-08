@@ -62,6 +62,9 @@ function Acl() {
       queryClient.invalidateQueries('acl');
       toast.success('Acl deleted successfully');
     },
+    onError: (error: any) => {
+      toast.error(`Something went wrong: ${error.response.data.message}`);
+    },
   });
 
   const onDeleteHandler = (aclId: string) => {

@@ -3,9 +3,8 @@ import React, {Fragment, useState} from 'react';
 import {useQuery, useQueryClient} from 'react-query';
 import {Aclfn, allUserFn, api} from '../config';
 import Loading from './Loading';
-import {PlusCircleIcon} from '@heroicons/react/24/solid';
 import {toast} from 'react-toastify';
-import {XMarkIcon} from '@heroicons/react/24/solid';
+import {XMarkIcon, PlusIcon, PlusCircleIcon} from '@heroicons/react/24/solid';
 import {Tooltip} from '../components/mui';
 
 interface userList {
@@ -23,6 +22,7 @@ export default function AddAcl({closeModal, openModal, isOpen}: any) {
   const [userId, setUserId] = React.useState('');
   const [accessType, setAcessType] = useState('all');
   const queryClient = useQueryClient();
+  const token = localStorage.getItem('token');
 
   const handleAddButtonClick = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -47,7 +47,6 @@ export default function AddAcl({closeModal, openModal, isOpen}: any) {
     (document.getElementById('roundePort') as HTMLInputElement).value = '';
   }
 
-  const token = localStorage.getItem('token');
   const {data: dataAcl} = useQuery({
     queryKey: ['acl'],
     queryFn: Aclfn,
@@ -89,6 +88,7 @@ export default function AddAcl({closeModal, openModal, isOpen}: any) {
         toast.success('acl added successfully');
         setItems([]);
         closeModal();
+        queryClient.invalidateQueries('acl');
         Aclfn();
         (document.getElementById('roundePort') as HTMLInputElement).value = '';
       } catch (error) {
@@ -196,10 +196,10 @@ export default function AddAcl({closeModal, openModal, isOpen}: any) {
                   <div className='mt-4'>
                     <button
                       type='button'
-                      className='inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
+                      className='inline-flex justify-center rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
                       onClick={() => CreateAclfn()}
                     >
-                      Add Acl
+                      Add Acl <PlusIcon className='ml-1 h-5 w-5' />
                     </button>
                   </div>
                 </Dialog.Panel>

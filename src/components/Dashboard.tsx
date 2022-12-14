@@ -5,7 +5,7 @@ import {styled} from '@mui/material/styles';
 import * as React from 'react';
 import {Route, Routes} from 'react-router-dom';
 import peoxypic from '../assets/proxy.png';
-import {Divider, Drawer, Toolbar} from '../components/mui';
+import {Divider, Drawer, Toolbar} from '@mui/material';
 import {ProxyList} from '../pages';
 import {DashboardRoutes} from '../routes/AppRoute';
 import ProtectedRoute from '../routes/ProtectedRoute';
@@ -63,7 +63,7 @@ const DrawerHeader = styled('div')(({theme}) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function Dashboard() {
+function Dashboard() {
   const [open, setOpen] = React.useState(true);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -138,3 +138,5 @@ export default function Dashboard() {
     </Box>
   );
 }
+
+export default React.memo(Dashboard);

@@ -1,4 +1,4 @@
-import {List, ListItem} from '../components/mui';
+import {List, ListItem} from '@mui/material';
 import {NavLink} from 'react-router-dom';
 import {
   ArrowPathIcon,
@@ -9,6 +9,7 @@ import {
   HandRaisedIcon,
 } from '@heroicons/react/24/solid';
 import {useSelector} from 'react-redux';
+import React from 'react';
 
 function DashboardList() {
   const user = localStorage.getItem('user');
@@ -76,4 +77,4 @@ function DashboardList() {
   );
 }
 
-export default DashboardList;
+export default React.memo(DashboardList);

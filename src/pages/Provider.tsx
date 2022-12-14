@@ -3,16 +3,7 @@ import * as React from 'react';
 import {useMutation, useQuery, useQueryClient} from 'react-query';
 import {toast} from 'react-toastify';
 import Loading from '../components/Loading';
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-} from '../components/mui';
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from '@mui/material';
 import ProviderConnected from '../components/ProviderConnected';
 import {api, connectProviderFn, disconnectProviderFn, getAllProviderConnectedFn} from '../config';
 interface Data {

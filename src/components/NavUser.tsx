@@ -1,4 +1,4 @@
-import {Avatar, Box, IconButton, Menu, MenuItem, Tooltip} from './mui';
+import {Avatar, Box, IconButton, Menu, MenuItem, Tooltip} from '@mui/material';
 import {Link, useNavigate} from 'react-router-dom';
 import {Cog6ToothIcon, ArrowLeftOnRectangleIcon, UserIcon} from '@heroicons/react/24/outline';
 import React from 'react';
@@ -57,4 +57,4 @@ function NavUser({handleCloseUserMenu, handleOpenUserMenu, anchorElUser}: any) {
   );
 }
 
-export default NavUser;
+export default React.memo(NavUser);

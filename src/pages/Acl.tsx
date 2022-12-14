@@ -3,16 +3,7 @@ import {useMutation, useQuery, useQueryClient} from 'react-query';
 import {toast} from 'react-toastify';
 import AddAcl from '../components/AddAcl';
 import Loading from '../components/Loading';
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-} from '../components/mui';
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from '@mui/material';
 import {Aclfn, deleteAclFn} from '../config';
 
 interface Acl {

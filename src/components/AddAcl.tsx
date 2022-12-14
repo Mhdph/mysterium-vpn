@@ -5,7 +5,7 @@ import {Aclfn, allUserFn, api} from '../config';
 import Loading from './Loading';
 import {toast} from 'react-toastify';
 import {XMarkIcon, PlusIcon, PlusCircleIcon} from '@heroicons/react/24/solid';
-import {Tooltip} from '../components/mui';
+import {Tooltip} from '@mui/material';
 
 interface userList {
   id: string;

@@ -1,13 +1,4 @@
-import {
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TablePagination,
-} from '../components/mui';
+import {TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, TablePagination} from '@mui/material';
 import clsx from 'clsx';
 import React from 'react';
 import {useMutation, useQuery, useQueryClient} from 'react-query';

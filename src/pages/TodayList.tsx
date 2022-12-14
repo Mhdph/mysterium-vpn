@@ -3,16 +3,7 @@ import ReactCountryFlag from 'react-country-flag';
 import {useMutation, useQuery, useQueryClient} from 'react-query';
 import {toast} from 'react-toastify';
 import Loading from '../components/Loading';
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-} from '../components/mui';
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from '@mui/material';
 import {DeleteFavouritefn, getAllTodayFn} from '../config';
 
 interface Proxy {

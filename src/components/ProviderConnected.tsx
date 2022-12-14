@@ -1,14 +1,5 @@
 import * as React from 'react';
-import {
-  TableContainer,
-  Paper,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  TablePagination,
-} from '../components/mui';
+import {TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, TablePagination} from '@mui/material';
 import {disconnectProviderFn, getAllProviderConnectedFn} from '../config';
 import {useMutation, useQuery, useQueryClient} from 'react-query';
 import clsx from 'clsx';

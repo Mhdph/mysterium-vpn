@@ -48,9 +48,9 @@ function NavUser({handleCloseUserMenu, handleOpenUserMenu, anchorElUser}: any) {
           <Cog6ToothIcon className='mr-1 h-5 w-5' />
           <p onClick={ChangePasswordFn}>Change Password</p>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={() => LogOut()}>
           <ArrowLeftOnRectangleIcon className='mr-1 h-5 w-5' />
-          <p onClick={() => LogOut()}>LogOut</p>
+          <p>LogOut</p>
         </MenuItem>
       </Menu>
     </Box>

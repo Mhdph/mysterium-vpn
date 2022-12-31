@@ -7,6 +7,7 @@ import {useNavigate} from 'react-router-dom';
 import {loginFailure} from '../app/userSlice';
 import bgLogin from '../assets/bg-login.jpg';
 import {baseUrl} from '../config';
+import Cookies from 'js-cookie';
 
 function Login() {
   const [username, setusername] = React.useState('');
@@ -24,6 +25,7 @@ function Login() {
         password: password,
       });
       localStorage.setItem('token', res.data.data);
+      Cookies.set('tokenexpire', res.data.data, {expires: 1});
       const decodedJwt = jwt_decode<any>(res.data.data);
       localStorage.setItem('user', decodedJwt.role);
       localStorage.setItem('id', decodedJwt.userId);

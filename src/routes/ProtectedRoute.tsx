@@ -1,7 +1,8 @@
+import Cookies from 'js-cookie';
 import {Outlet, Navigate} from 'react-router-dom';
 
 const ProtectedRoute = () => {
-  const token = localStorage.getItem('token');
+  const token = Cookies.get('tokenexpire');
   return token ? <Outlet /> : <Navigate to='/login' />;
 };
 

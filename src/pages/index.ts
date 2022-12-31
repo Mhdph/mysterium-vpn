@@ -5,3 +5,4 @@ export {default as Login} from './Login';
 export {default as Provider} from './Provider';
 export {default as Identity} from './Identity';
 export {default as Acl} from './Acl';
+export {default as Users} from './Users';

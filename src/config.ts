@@ -1,8 +1,8 @@
 import axios from 'axios';
-export const baseUrl = 'http://92.42.46.74:3000/api/v1';
+export const baseUrl = 'http://78.47.168.16:3000/api/v1';
 
 export const api = axios.create({
-  baseURL: 'http://92.42.46.74:3000/api/v1',
+  baseURL: 'http://78.47.168.16:3000/api/v1',
 });
 
 export const getProxy = async () => {
@@ -137,6 +137,12 @@ export const allUserFn = async () => {
   const token = localStorage.getItem('token');
 
   const response = await api.get('/users', {headers: {Authorization: `Bearer ${token}`}});
+  return response.data;
+};
+
+export const deleteUserFn = async (userId: string) => {
+  const token = localStorage.getItem('token');
+  const response = await api.delete<any>(`/users/${userId}`, {headers: {Authorization: `Bearer ${token}`}});
   return response.data;
 };
 

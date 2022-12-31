@@ -7,6 +7,7 @@ import {
   FingerPrintIcon,
   HeartIcon,
   HandRaisedIcon,
+  UserIcon,
 } from '@heroicons/react/24/solid';
 import {useSelector} from 'react-redux';
 import React from 'react';
@@ -68,6 +69,15 @@ function DashboardList() {
               <ListItem className='mb-1 hover:rounded-lg hover:bg-dashboard-hover hover:px-2'>
                 <HandRaisedIcon className='h-5 w-5' />
                 <a className='font-inter mx-1 text-sm'>ACL</a>
+              </ListItem>
+            </NavLink>
+            <NavLink
+              className={({isActive}) => (isActive ? 'font-semibold text-white' : 'undifined')}
+              to='/dashboard/users'
+            >
+              <ListItem className='mb-1 hover:rounded-lg hover:bg-dashboard-hover hover:px-2'>
+                <UserIcon className='h-5 w-5' />
+                <a className='font-inter mx-1 text-sm'>User</a>
               </ListItem>
             </NavLink>
           </div>

@@ -5,18 +5,7 @@ import {useMutation, useQuery, useQueryClient} from 'react-query';
 import clsx from 'clsx';
 import Loading from '../components/Loading';
 import {toast} from 'react-toastify';
-interface Data {
-  ip: string;
-  country: string;
-  quality: number;
-  bandwidth: number;
-  latency: number;
-  id: string;
-  isRegister: boolean;
-  providerStatus: string;
-  proxyCount: number;
-  providerIdentity: string;
-}
+import {ConncetedProviderData} from '../types';
 
 export default function ProviderConnected() {
   const [page, setPage] = React.useState(0);
@@ -59,6 +48,7 @@ export default function ProviderConnected() {
               <TableHead>
                 <TableRow>
                   <TableCell>‌Id</TableCell>
+                  <TableCell>‌Local Id</TableCell>
                   <TableCell>Quality</TableCell>
                   <TableCell>‌Bandwidth</TableCell>
                   <TableCell>Latency</TableCell>
@@ -67,32 +57,37 @@ export default function ProviderConnected() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {ConnectedProvider.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row: Data) => {
-                  return (
-                    <TableRow key={row.id}>
-                      <TableCell component='th' scope='row'>
-                        {row.providerIdentity}
-                      </TableCell>
-                      <TableCell>{row.quality.toFixed(2)}</TableCell>
-                      <TableCell>{row.bandwidth.toFixed(2)}</TableCell>
-                      <TableCell>{row.latency.toFixed(2)}</TableCell>
-                      <TableCell>
-                        <p className='relative right-10 text-center'>{row.proxyCount}</p>
-                      </TableCell>
-                      <TableCell>
-                        <button
-                          onClick={() => onDisconnectHandler(row.id)}
-                          className={clsx(
-                            row.isRegister ? 'bg-red-500' : ' bg-green-500 ',
-                            'rounded px-2 py-1 text-white',
-                          )}
-                        >
-                          {row.isRegister ? 'Disconnect' : 'Connect'}
-                        </button>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                {ConnectedProvider.data
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row: ConncetedProviderData) => {
+                    return (
+                      <TableRow key={row.id}>
+                        <TableCell component='th' scope='row'>
+                          {row.providerIdentity}
+                        </TableCell>
+                        <TableCell component='th' scope='row'>
+                          {row.userIdentity}
+                        </TableCell>
+                        <TableCell>{row.quality.toFixed(2)}</TableCell>
+                        <TableCell>{row.bandwidth.toFixed(2)}</TableCell>
+                        <TableCell>{row.latency.toFixed(2)}</TableCell>
+                        <TableCell>
+                          <p className='relative right-10 text-center'>{row.proxyCount}</p>
+                        </TableCell>
+                        <TableCell>
+                          <button
+                            onClick={() => onDisconnectHandler(row.id)}
+                            className={clsx(
+                              row.isRegister ? 'bg-red-500' : ' bg-green-500 ',
+                              'rounded px-2 py-1 text-white',
+                            )}
+                          >
+                            {row.isRegister ? 'Disconnect' : 'Connect'}
+                          </button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
               </TableBody>
             </Table>
           </TableContainer>

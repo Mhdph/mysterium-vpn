@@ -29,12 +29,9 @@ export default function Provider() {
   const getAllProviderFn = async () => {
     const token = localStorage.getItem('token');
     try {
-      const response = await api.get(
-        '/provider/myst?filters[country]=GB&filters[providerIpType]=residential&limit=500',
-        {
-          headers: {Authorization: `Bearer ${token}`},
-        },
-      );
+      const response = await api.get('/provider/myst?filters[country]=DE&filters[providerIpType]=hosting&limit=500', {
+        headers: {Authorization: `Bearer ${token}`},
+      });
       setData(response.data.data);
       setLoading(false);
     } catch (error) {

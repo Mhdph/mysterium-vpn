@@ -5,7 +5,6 @@ import {useMutation, useQuery, useQueryClient} from 'react-query';
 import {getIdentityFn, createIdentityFn, deleteIdentityFn} from '../config';
 import {toast} from 'react-toastify';
 import Loading from '../components/Loading';
-import {getNativeSelectUtilityClasses} from '@mui/material';
 
 interface IdentityData {
   identity: string;
@@ -30,6 +29,9 @@ function Identity() {
     onSuccess(data) {
       queryClient.invalidateQueries('identitykey');
       toast.success('Identity deleted successfully');
+    },
+    onError: (error: any) => {
+      toast.error(`Something went wrong: ${error.response.data.message}`);
     },
   });
   const {
@@ -65,7 +67,7 @@ function Identity() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  const addImageToPost = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const addImageToPost = (event: any) => {
     if (event.target.files != null) {
       setFile(event.target.files[0]);
       setFileName(event.target.files[0].name);
@@ -97,9 +99,7 @@ function Identity() {
                 htmlFor='file-upload'
                 className='z-20 flex h-full w-full cursor-pointer flex-col-reverse items-center justify-center'
               >
-                <p className='z-10 text-center text-xs font-light text-gray-500'>
-                  Drag & Drop your files here or click file to upload
-                </p>
+                <p className='z-10 text-center text-xs font-light text-gray-500'>click file to upload</p>
                 <svg
                   className='z-10 h-8 w-8 text-indigo-400'
                   fill='currentColor'

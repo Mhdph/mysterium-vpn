@@ -7,10 +7,11 @@ import {Route, Routes} from 'react-router-dom';
 import peoxypic from '../assets/proxy.png';
 import {Divider, Drawer, Toolbar} from '@mui/material';
 import {ProxyList} from '../pages';
-import {DashboardRoutes} from '../routes/AppRoute';
+import {AdminRoutes, DashboardRoutes} from '../routes/AppRoute';
 import ProtectedRoute from '../routes/ProtectedRoute';
 import DashboardList from './DashboardList';
 import NavUser from './NavUser';
+import AdminRoute from '../routes/AdminRoute';
 
 const drawerWidth = 240;
 
@@ -130,6 +131,12 @@ function Dashboard() {
           <Route element={<ProtectedRoute />}>
             <Route index element={<ProxyList />} />
             {DashboardRoutes.map((route) => (
+              <Route key={route.path} path={route.path} element={route.component} />
+            ))}
+          </Route>
+          <Route element={<AdminRoute />}>
+            <Route index element={<ProxyList />} />
+            {AdminRoutes.map((route) => (
               <Route key={route.path} path={route.path} element={route.component} />
             ))}
           </Route>
